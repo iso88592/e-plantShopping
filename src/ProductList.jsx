@@ -8,13 +8,15 @@ function ProductList({ onHomeClick }) {
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
     const dispatch = useDispatch();
+    const cart = useSelector(state => state.cart.items);
 
 
     const handleAddToCart = (plant) => {
         dispatch(addItem(plant));
-        setAddedToCart((prevState) => ({
-            ...prevState, [plant.name]: true,
-        }));
+    }
+
+    const itemInCart = (plant) => {
+        return cart.some(cartItem => cartItem.name === plant.name);
     }
 
     const plantsArray = [
@@ -260,13 +262,14 @@ function ProductList({ onHomeClick }) {
                 </div>
                 <div className="nav-links">
                     <a href="#" onClick={(e) => handlePlantsClick(e)} className="nav-link">Plants</a>
-                    <a href="#" onClick={(e) => handleCartClick(e)} className="nav-link cart-link">
+                    <a href="#" onClick={(e) => handleCartClick(e)} className="nav-link cart-link cart">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" height="44" width="44">
                             <rect width="156" height="156" fill="none"></rect>
                             <circle cx="80" cy="216" r="12"></circle>
                             <circle cx="184" cy="216" r="12"></circle>
                             <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                         </svg>
+                            <span className="cart_quantity_count">{cart.length < 1 ? "" : cart.length}</span>
                     </a>
                 </div>
             </div>
@@ -274,7 +277,7 @@ function ProductList({ onHomeClick }) {
                 <div className="product-grid">
                     {plantsArray.map((item, index) => (
                         <div key={index}>
-                            <h2>{item.category}</h2>
+                            <h2 className="plantname_heading"><span className="plant_heading">{item.category}</span></h2>
                             <div className="product-list">
                                 {item.plants.map((plant, plantIndex) => (
                                     <div key={plantIndex} className="product-card">
@@ -282,7 +285,13 @@ function ProductList({ onHomeClick }) {
                                         <img className="product-image" src={plant.image} alt={plant.name}/>
                                         <div className="product-description">{plant.description}</div>
                                         <div className="product-price">{plant.cost}</div>
-                                        <button className="product-button" onClick={() => handleAddToCart(plantsArray[index].plants[plantIndex])}>Add to Cart</button>
+                                        <button
+                                            className={`product-button ${itemInCart(plant) ? 'added-to-cart' : ''}`}
+                                            disabled={itemInCart(plant)}
+                                            onClick={() => handleAddToCart(plant)}
+                                        >
+                                            {itemInCart(plant) ? 'Added to Cart' : 'Add to Cart'}
+                                        </button>
                                     </div>
                                 ))}
                             </div>
