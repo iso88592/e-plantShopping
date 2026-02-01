@@ -3,14 +3,18 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow: hidden;
+}
+
+html, body {
+  overflow-x: hidden;
 }
 
 .landing-page {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   background-color: #f8f8f8;
+  overflow-x: hidden;
 }
 
 .background-image {
@@ -28,28 +32,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  width: 100vw;
- top: 100px;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  width: 100%;
   backdrop-filter: blur(4px);
   background-color: rgba(0,0,0,0.5);
-  gap: 20px;
+  gap: 40px;
+  padding: 40px 20px;
 }
 
 .landing_content {
- margin-top: 430px;
-  margin-left: 100px;
-  transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
-  /* background-color: red; */
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  max-width: 500px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  padding: 20px;
 }
 
 .content p,
@@ -58,12 +60,12 @@
 }
 
 .content h1 {
-  font-size: 48px;
+  font-size: clamp(28px, 5vw, 48px);
   margin-bottom: 10px;
 }
 
 .content p {
-  font-size: 25px;
+  font-size: clamp(16px, 3vw, 25px);
 }
 
 .divider {
@@ -113,35 +115,31 @@
 .product-list-container.visible {
   top: 0;
 }
-/* LandingPage.css */
-@media screen and (max-width: 768px) {
+.aboutus_container {
+  flex: 1 1 400px;
+  max-width: 600px;
+}
+
+@media screen and (max-width: 900px) {
   .content {
     flex-direction: column;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    gap: 30px;
   }
 
   .landing_content {
-    margin-top: 100px; /* Adjust as needed */
-    margin-left: 0;
-    width: 80%; /* Adjust as needed */
-    text-align: center;
+    max-width: 100%;
   }
 
   .aboutus_container {
-    margin-top: 20px; /* Adjust as needed */
-    width: 80%; /* Adjust as needed */
+    width: 100%;
+    max-width: 600px;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .landing_content {
-    margin-top: 50px; /* Adjust as needed */
-    width: 90%; /* Adjust as needed */
-  }
-
-  .aboutus_container {
-    width: 90%; /* Adjust as needed */
+  .get-started-button {
+    padding: 12px 20px;
+    font-size: 18px;
   }
 }
